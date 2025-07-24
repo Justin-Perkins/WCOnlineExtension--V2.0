@@ -101,55 +101,42 @@ async function loadOptions() {
   });
 }
 
-// Load saved selected values from config.json and apply to selects
 async function loadSavedSettings() {
   const config = await readConfig();
   if (!config) return;
 
+  console.log("Totur Choices", tutorChoices);
+  console.log("Config Tutor", config.tutor);
+
   if (config.tutor && tutorChoices) {
-    // config.tutor is an array of tutor objects
-    // Select only those tutors whose IDs exist in the loaded defaults (tutorChoices.options)
-    const defaultTutorIds = tutorChoices.getValue(true); // returns array of selected values
+  const tutorValues = config.tutor.map(t => t.id);
 
-    const validTutorIds = [];
-
-
-    console.log("List of valid tutors", validTutorIds);
-
-    config.tutor.forEach(savedTutor => {
-        console.log("Saved tutor", savedTutor);
-
-
-      if (defaultTutorIds.includes(savedTutor.id)) {
-        validTutorIds.push(savedTutor.id);
-      } else {
-        console.error(`Tutor with id "${savedTutor.id}" not found in default tutors.`);
-      }
-    });
-
-    tutorChoices.setValue(validTutorIds);
+  console.log(tutorValues);
+  tutorChoices.setChoiceByValue(tutorValues);
   }
 
   if (config.discipline && disciplineChoice) {
-    disciplineChoice.setValue(config.discipline);
+    disciplineChoice.setChoiceByValue(config.discipline);
   }
 
   if (config.appointmentType && appointmentTypeChoice) {
-    appointmentTypeChoice.setValue(config.appointmentType);
+    appointmentTypeChoice.setChoiceByValue(config.appointmentType);
   }
 
   if (config.sessionType && sessionTypeChoice) {
-    sessionTypeChoice.setValue(config.sessionType);
+    sessionTypeChoice.setChoiceByValue(config.sessionType);
   }
 
   if (config.coordinator && coordinatorChoice) {
-    coordinatorChoice.setValue(config.coordinator);
+    coordinatorChoice.setChoiceByValue(config.coordinator);
   }
 
   if (config.tutoringLocation && tutoringLocationChoice) {
-    tutoringLocationChoice.setValue(config.coordinator);
+    tutoringLocationChoice.setChoiceByValue(config.tutoringLocation);
   }
 }
+
+
 
 // Save current selections to chrome.storage.local (or wherever you want)
 function saveSettings() {
