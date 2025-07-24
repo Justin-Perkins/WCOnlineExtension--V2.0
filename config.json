@@ -1,0 +1,17 @@
+{
+  "tutor": [
+    {
+      "name": "Justin Perkins Drop-In",
+      "id": "sc63af087bb7e50"
+    },
+    {
+      "name": "Justin Perkins One-On-One Appointment",
+      "id": "sc63af07f7eb578"
+    }
+  ],
+  "discipline": "Science/Technology/Engineering",
+  "appointmentType": "Drop-in",
+  "sessionType": "Tutoring",
+  "coordinator": "Cristy Rodrick",
+  "tutoringLocation": "LC-205"
+}
