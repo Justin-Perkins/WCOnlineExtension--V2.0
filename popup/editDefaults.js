@@ -34,19 +34,14 @@ function populateMultiSelect(id, tutors) {
 async function readDefaults() {
     return new Promise(resolve => {
         chrome.storage.local.get(["defaultOptions"], data => {
-            if (!data.defaultOptions) {
-                // Initialize empty structure if nothing saved
-                resolve({
-                    tutors: [],
-                    disciplines: [],
-                    appointmentTypes: [],
-                    sessionTypes: [],
-                    coordinators: [],
-                    tutoringLocations: []
-                });
-            } else {
-                resolve(data.defaultOptions);
-            }
+            resolve(data.defaultOptions || {
+                tutors: [],
+                disciplines: [],
+                appointmentTypes: [],
+                sessionTypes: [],
+                coordinators: [],
+                tutoringLocations: []
+            });
         });
     });
 }
@@ -67,8 +62,16 @@ function saveSettings() {
         return;
     }
 
+    // Tutor selections: save both id and name
+    const tutorValues = tutorChoices.getValue(true); // array of IDs
+    const tutorOptions = tutorChoices.getValue();    // array of objects from Choices
+    const tutors = tutorOptions.map(t => ({
+        id: t.value,
+        name: t.label
+    }));
+
     const settings = {
-        tutor: tutorChoices.getValue(true),
+        tutor: tutors,
         discipline: disciplineChoice.getValue(true),
         appointmentType: appointmentTypeChoice.getValue(true),
         sessionType: sessionTypeChoice.getValue(true),
@@ -78,6 +81,7 @@ function saveSettings() {
 
     chrome.storage.local.set({ defaultSettings: settings }, () => {
         alert("Settings saved!");
+        console.log("Saved settings:", settings);
     });
 }
 
@@ -112,7 +116,7 @@ async function loadSavedSettings() {
     const config = await readSavedSettings();
     if (!config) return;
 
-    if (config.tutor && tutorChoices) tutorChoices.setChoiceByValue(config.tutor);
+    if (config.tutor && tutorChoices) tutorChoices.setChoiceByValue(config.tutor.map(t => t.id));
     if (config.discipline && disciplineChoice) disciplineChoice.setChoiceByValue(config.discipline);
     if (config.appointmentType && appointmentTypeChoice) appointmentTypeChoice.setChoiceByValue(config.appointmentType);
     if (config.sessionType && sessionTypeChoice) sessionTypeChoice.setChoiceByValue(config.sessionType);
