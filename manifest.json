@@ -30,6 +30,6 @@
 
   "content_scripts": [{
     "matches": ["https://snhu.mywconline.com/*"],
-    "js": ["scripts/formEditor.js"]
+    "js": ["scripts/formManager.js"]
     }]
 }
