@@ -26,8 +26,8 @@ async function initialize() {
   : "N/A";
 
   document.getElementById("editButton").addEventListener("click", () => {
-  const editUrl = chrome.runtime.getURL("popup/edit.html");
-  window.open(editUrl, "_blank", "width=500,height=600");
+  const editUrl = chrome.runtime.getURL("popup/editDefaults.html");
+  chrome.tabs.create({ url: editUrl });
 });
 
 }
