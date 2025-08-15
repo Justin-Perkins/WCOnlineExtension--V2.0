@@ -1,17 +1,14 @@
-let config = {}
-
-async function loadSettings() {
-  try {
-    const response = await fetch(chrome.runtime.getURL('config.json'));
-    config = await response.json();
-    console.log("Settings loaded:", config);
-  } catch (err) {
-    console.error("Failed to load settings", err);
-  }
+async function loadSavedSettings() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(["defaultSettings"], (data) => {
+      resolve(data.defaultSettings || {});
+    });
+  });
 }
 
 async function initialize() {
-  await loadSettings();
+  const config = await loadSavedSettings();
+  console.log("Loaded settings from Chrome storage:", config);
 
   // Safely set values in the popup
   document.getElementById("coordinator").textContent = config.coordinator || "N/A";
@@ -20,16 +17,17 @@ async function initialize() {
   document.getElementById("sessionType").textContent = config.sessionType || "N/A";
   document.getElementById("tutoringLocation").textContent = config.tutoringLocation || "N/A";
 
-  // Tutor array (join if it exists)
+  // Tutor array (join names if it exists)
   document.getElementById("tutor").textContent = Array.isArray(config.tutor)
-  ? config.tutor.map(t => t.name).join(", ")
-  : "N/A";
+    ? config.tutor.map(t => t.name || t.id).join(", ")
+    : "N/A";
 
+  // Edit button opens the editDefaults tab
   document.getElementById("editButton").addEventListener("click", () => {
-  const editUrl = chrome.runtime.getURL("popup/editDefaults.html");
-  chrome.tabs.create({ url: editUrl });
-});
-
+    const editUrl = chrome.runtime.getURL("popup/editDefaults.html");
+    chrome.tabs.create({ url: editUrl });
+  });
 }
 
-initialize();
+// Initialize popup
+document.addEventListener("DOMContentLoaded", initialize);
