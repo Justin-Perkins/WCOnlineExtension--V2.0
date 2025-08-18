@@ -1,35 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8" />
   <title>Edit Defaults</title>
-  <style>
-    
-  </style>
+  <link rel="stylesheet" href="../fonts/inter.css" />
   <link rel="stylesheet" href="../libs/choices.min.css" />
+  <link rel="stylesheet" href="editDefaults.css" />
 </head>
 <body>
-  <h2>Edit Defaults</h2>
+  <h1>Edit Defaults</h1>
+  <div class="card">
+    <h2>Configure Default Settings</h2>
+    
+    <div class="form-group">
+      <label for="tutor">Tutor</label>
+      <select id="tutor" multiple></select>
+    </div>
 
-  <label for="tutor">Tutor</label>
-  <select id="tutor" multiple></select>
+    <div class="form-group">
+      <label for="discipline">Discipline</label>
+      <select id="discipline"></select>
+    </div>
 
-  <label for="discipline">Discipline</label>
-  <select id="discipline"></select>
+    <div class="form-group">
+      <label for="appointmentType">Appointment Type</label>
+      <select id="appointmentType"></select>
+    </div>
 
-  <label for="appointmentType">Appointment Type</label>
-  <select id="appointmentType"></select>
+    <div class="form-group">
+      <label for="sessionType">Session Type</label>
+      <select id="sessionType"></select>
+    </div>
 
-  <label for="sessionType">Session Type</label>
-  <select id="sessionType"></select>
+    <div class="form-group">
+      <label for="coordinator">Coordinator</label>
+      <select id="coordinator"></select>
+    </div>
 
-  <label for="coordinator">Coordinator</label>
-  <select id="coordinator"></select>
+    <div class="form-group">
+      <label for="tutoringLocation">Tutoring Location</label>
+      <select id="tutoringLocation"></select>
+    </div>
 
-  <label for="tutoringLocation">Tutoring Location</label>
-  <select id="tutoringLocation"></select>
-
-  <button id="saveSettings">Save Settings</button>
-  <button id="refreshOptions">Refresh Options</button>
+    <div class="button-group">
+      <button id="saveSettings" class="action-button">Save Settings</button>
+      <button id="refreshOptions" class="action-button">Refresh Options</button>
+    </div>
+  </div>
 
   <script src="../libs/choices.min.js"></script>
   <script src="editDefaults.js"></script>
