@@ -18,9 +18,9 @@ async function initialize() {
   document.getElementById("tutoringLocation").textContent = config.tutoringLocation || "N/A";
 
   // Tutor array (join names if it exists)
-  document.getElementById("tutor").textContent = Array.isArray(config.tutor)
-    ? config.tutor.map(t => t.name || t.id).join(", ")
-    : "N/A";
+  document.getElementById("tutor").innerHTML = Array.isArray(config.tutor)
+  ? config.tutor.map(t => `<li>${t.name}</li>`).join("")
+  : "<li>N/A</li>";
 
   // Edit button opens the editDefaults tab
   document.getElementById("editButton").addEventListener("click", () => {
