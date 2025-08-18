@@ -24,7 +24,7 @@ The **MyWCOnline Form Editor** is a Chrome Extension that enhances the WCOnline 
 
 ### Chrome Webstore Install (Recommended)
 
-The extension is avaliable via the [Chrome Webstore](https://chromewebstore.google.com/)
+The extension is avaliable via the [Chrome Webstore](https://chromewebstore.google.com/) (Maybe Soon)
 
 ### Developer Install
 
