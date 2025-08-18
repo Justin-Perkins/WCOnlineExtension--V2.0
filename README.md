@@ -2,7 +2,7 @@
 
 ![Banner GIF](github/banner.png)
 
-**A simple, intuitive Chrome Extension to streamline report forms in WCOnline.**
+**A simple, intuitive Chrome Extension to streamline report forms in My WCOnline.**
 
 ## 🚀 Overview
 
