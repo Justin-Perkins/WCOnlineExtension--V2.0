@@ -32,7 +32,7 @@ The extension is available on GitHub as a `.zip` file for local installation:
 
 1. Clone the repository or download the ZIP:  
    ```bash
-   git clone https://github.com/yourusername/MyWCOnline-Form-Editor.git
+   git clone https://github.com/Justin-Perkins/WCOnlineFormEditor.git
    ```
    If downloaded as a ZIP folder, be sure to extract it.
 2. Open Chrome and navigate to: `chrome://extensions/`  
@@ -41,7 +41,7 @@ The extension is available on GitHub as a `.zip` file for local installation:
 
 4. Click **Load unpacked** and select the folder containing the extension  
 
-![Install GIF](github/install.gif)
+![Install GIF](github/Install.gif)
 
 ## ⚙️ Configuration
 
