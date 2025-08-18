@@ -55,11 +55,15 @@ function editForm(formDoc, settings) {
 
 
     // ---- OTHER SETTINGS ----
+    console.log("Tutoring Location from settings:", settings.tutorLocation);
+    console.log("Available options:", Array.from(locationSelect.options).map(o => o.value));
+
+
     if (disciplineSelect && settings.discipline) disciplineSelect.value = settings.discipline;
     if (appointmentTypeSelect && settings.appointmentType) appointmentTypeSelect.value = settings.appointmentType;
     if (sessionTypeSelect && settings.sessionType) sessionTypeSelect.value = settings.sessionType;
     if (coordinatorSelect && settings.coordinator) coordinatorSelect.value = settings.coordinator;
-    if (locationSelect && settings.tutorLocation) locationSelect.value = settings.tutorLocation;
+    if (locationSelect && settings.tutoringLocation) locationSelect.value = settings.tutoringLocation;
 }
 
 // ---- FUNCTION: Save all options to Chrome Local Storage ----
