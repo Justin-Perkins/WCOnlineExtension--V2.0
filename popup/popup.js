@@ -8,7 +8,6 @@ async function loadSavedSettings() {
 
 async function initialize() {
   const config = await loadSavedSettings();
-  console.log("Loaded settings from Chrome storage:", config);
 
   // Safely set values in the popup
   document.getElementById("coordinator").textContent = config.coordinator || "N/A";

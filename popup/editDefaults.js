@@ -81,7 +81,6 @@ function saveSettings() {
 
     chrome.storage.local.set({ defaultSettings: settings }, () => {
         alert("Settings saved!");
-        console.log("Saved settings:", settings);
     });
 }
 

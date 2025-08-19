@@ -55,10 +55,6 @@ function editForm(formDoc, settings) {
 
 
     // ---- OTHER SETTINGS ----
-    console.log("Tutoring Location from settings:", settings.tutorLocation);
-    console.log("Available options:", Array.from(locationSelect.options).map(o => o.value));
-
-
     if (disciplineSelect && settings.discipline) disciplineSelect.value = settings.discipline;
     if (appointmentTypeSelect && settings.appointmentType) appointmentTypeSelect.value = settings.appointmentType;
     if (sessionTypeSelect && settings.sessionType) sessionTypeSelect.value = settings.sessionType;
@@ -103,7 +99,7 @@ function saveDefaults(formDoc) {
     });
 
     chrome.storage.local.set({ defaultOptions: defaultsObj }, () => {
-        console.log("Defaults updated in Chrome storage");
+        //console.log("Defaults updated in Chrome storage");
     });
 }
 
