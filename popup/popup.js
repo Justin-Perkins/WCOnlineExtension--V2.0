@@ -7,27 +7,39 @@ async function loadSavedSettings() {
   });
 }
 
+// Helper to safely set text content in the popup
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value || "N/A";
+}
+
 // Initialize the popup UI
 async function initialize() {
   const config = await loadSavedSettings();
 
   // Display saved settings in the popup
-  document.getElementById("coordinator").textContent = config.coordinator || "N/A";
-  document.getElementById("discipline").textContent = config.discipline || "N/A";
-  document.getElementById("appointmentType").textContent = config.appointmentType || "N/A";
-  document.getElementById("sessionType").textContent = config.sessionType || "N/A";
-  document.getElementById("tutoringLocation").textContent = config.tutoringLocation || "N/A";
+  setText("coordinator", config.coordinator);
+  setText("discipline", config.discipline);
+  setText("appointmentType", config.appointmentType);
+  setText("sessionType", config.sessionType);
+  setText("tutoringLocation", config.tutoringLocation);
 
   // Show tutor list if available
-  document.getElementById("tutor").innerHTML = Array.isArray(config.tutor)
-    ? config.tutor.map(t => `<li>${t.name}</li>`).join("")
-    : "<li>N/A</li>";
+  const tutorEl = document.getElementById("tutor");
+  if (tutorEl) {
+    tutorEl.innerHTML = Array.isArray(config.tutors)
+      ? config.tutors.map((t) => `<li>${t.name}</li>`).join("")
+      : "<li>N/A</li>";
+  }
 
   // Open the edit defaults page when Edit button is clicked
-  document.getElementById("editButton").addEventListener("click", () => {
-    const editUrl = chrome.runtime.getURL("popup/editDefaults.html");
-    chrome.tabs.create({ url: editUrl });
-  });
+  const editButton = document.getElementById("editButton");
+  if (editButton) {
+    editButton.addEventListener("click", () => {
+      const editUrl = chrome.runtime.getURL("popup/editDefaults.html");
+      chrome.tabs.create({ url: editUrl });
+    });
+  }
 }
 
 // Run initialization once the popup is loaded
