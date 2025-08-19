@@ -18,7 +18,7 @@ The **MyWCOnline Form Editor** is a Chrome Extension that enhances the WCOnline 
 - Reduces CRF session start and end time selection from minute-by-minute to every 5 minutes
 - Limited the session start and end time selection to normal university operating hours
 - Customizable defaults for flexibility 
-- Responsive design allowing for compatability across differing devices
+- Responsive design allowing for compatibility across differing devices
 
 ## 📥 Download & Installation
 
