@@ -1,4 +1,4 @@
-// Global Choices instances
+// Global Choices.js instances for each select element
 let tutorChoices;
 let disciplineChoice;
 let appointmentTypeChoice;
@@ -6,7 +6,7 @@ let sessionTypeChoice;
 let coordinatorChoice;
 let tutoringLocationChoice;
 
-// Populate single select dropdown options
+// Populate a single-select dropdown with options
 function populateSelect(id, options) {
     const select = document.getElementById(id);
     select.innerHTML = "";
@@ -18,7 +18,7 @@ function populateSelect(id, options) {
     });
 }
 
-// Populate multi-select dropdown (tutors)
+// Populate a multi-select dropdown (tutors)
 function populateMultiSelect(id, tutors) {
     const select = document.getElementById(id);
     select.innerHTML = "";
@@ -30,7 +30,7 @@ function populateMultiSelect(id, tutors) {
     });
 }
 
-// Load saved defaults from chrome.storage.local
+// Read default option lists from Chrome storage
 async function readDefaults() {
     return new Promise(resolve => {
         chrome.storage.local.get(["defaultOptions"], data => {
@@ -46,7 +46,7 @@ async function readDefaults() {
     });
 }
 
-// Load saved selected settings from chrome.storage.local
+// Read saved user settings from Chrome storage
 async function readSavedSettings() {
     return new Promise(resolve => {
         chrome.storage.local.get(["defaultSettings"], data => {
@@ -55,21 +55,21 @@ async function readSavedSettings() {
     });
 }
 
-// Save current selections to chrome.storage.local
+// Save current selections into Chrome storage
 function saveSettings() {
     if (!tutorChoices || !disciplineChoice || !appointmentTypeChoice || !sessionTypeChoice || !coordinatorChoice || !tutoringLocationChoice) {
         alert("Form not ready");
         return;
     }
 
-    // Tutor selections: save both id and name
-    const tutorValues = tutorChoices.getValue(true); // array of IDs
-    const tutorOptions = tutorChoices.getValue();    // array of objects from Choices
+    // Extract tutor IDs and names
+    const tutorOptions = tutorChoices.getValue();
     const tutors = tutorOptions.map(t => ({
         id: t.value,
         name: t.label
     }));
 
+    // Build settings object
     const settings = {
         tutor: tutors,
         discipline: disciplineChoice.getValue(true),
@@ -84,7 +84,7 @@ function saveSettings() {
     });
 }
 
-// Load options and initialize Choices.js
+// Load default option lists and initialize Choices.js instances
 async function loadOptions() {
     const defaults = await readDefaults();
 
@@ -95,6 +95,7 @@ async function loadOptions() {
     populateSelect("coordinator", defaults.coordinators);
     populateSelect("tutoringLocation", defaults.tutoringLocations);
 
+    // Destroy existing Choices instances if reloaded
     if (tutorChoices) tutorChoices.destroy();
     if (disciplineChoice) disciplineChoice.destroy();
     if (appointmentTypeChoice) appointmentTypeChoice.destroy();
@@ -102,6 +103,7 @@ async function loadOptions() {
     if (coordinatorChoice) coordinatorChoice.destroy();
     if (tutoringLocationChoice) tutoringLocationChoice.destroy();
 
+    // Initialize new Choices instances
     tutorChoices = new Choices('#tutor', { removeItemButton: true, shouldSort: false, placeholder: true, placeholderValue: "Select tutors" });
     disciplineChoice = new Choices('#discipline', { shouldSort: false, searchEnabled: false });
     appointmentTypeChoice = new Choices('#appointmentType', { shouldSort: false, searchEnabled: false });
@@ -110,7 +112,7 @@ async function loadOptions() {
     tutoringLocationChoice = new Choices('#tutoringLocation', { shouldSort: false, searchEnabled: false });
 }
 
-// Apply saved selections to Choices.js
+// Apply saved user selections back into the form
 async function loadSavedSettings() {
     const config = await readSavedSettings();
     if (!config) return;
@@ -123,14 +125,14 @@ async function loadSavedSettings() {
     if (config.tutoringLocation && tutoringLocationChoice) tutoringLocationChoice.setChoiceByValue(config.tutoringLocation);
 }
 
-// Refresh options by reloading from chrome local storage
+// Refresh dropdowns from saved defaults
 async function refreshOptions() {
     await loadOptions();
     await loadSavedSettings();
     alert("Options refreshed from saved defaults!");
 }
 
-// Set up button event listeners
+// Set up event listeners for save and refresh buttons
 function setupEventListeners() {
     const saveBtn = document.getElementById("saveSettings");
     if (saveBtn) saveBtn.addEventListener("click", saveSettings);
@@ -139,7 +141,7 @@ function setupEventListeners() {
     if (refreshBtn) refreshBtn.addEventListener("click", refreshOptions);
 }
 
-// Initialize everything on popup load
+// Initialize page: load defaults, attach events, and restore saved settings
 document.addEventListener("DOMContentLoaded", async () => {
     await loadOptions();
     setupEventListeners();

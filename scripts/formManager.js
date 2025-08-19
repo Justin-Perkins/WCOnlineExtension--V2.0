@@ -1,4 +1,4 @@
-// ---- GLOBAL SELECTORS ----
+// GLOBAL SELECTORS
 const selectors = {
     appStart: 'select[name="app_start"]',
     appEnd: 'select[name="app_end"]',
@@ -10,7 +10,7 @@ const selectors = {
     location: 'select[name="cq5"]'
 };
 
-// ---- FUNCTION: Edit form ----
+// Edit the form by hiding/removing options and applying saved settings
 function editForm(formDoc, settings) {
     const appStartSelect = formDoc.querySelector(selectors.appStart);
     const appEndSelect = formDoc.querySelector(selectors.appEnd);
@@ -21,7 +21,7 @@ function editForm(formDoc, settings) {
     const coordinatorSelect = formDoc.querySelector(selectors.coordinator);
     const locationSelect = formDoc.querySelector(selectors.location);
 
-    // ---- TIME OPTIONS ----
+    // Time options: constrain available times between 8 AM (480) and 8 PM (1200)
     const time = new Date();
     const currentMinutes = time.getHours() * 60 + time.getMinutes();
     const closestTimeIndex = Math.round(currentMinutes / 5) * 5;
@@ -44,17 +44,16 @@ function editForm(formDoc, settings) {
             ? closestTimeIndex : 840;
     }
 
-    // ---- TUTOR ----
+    // Tutor field: restrict options and select the first saved tutor
     if (tutorSelect && settings.tutor) {
-        const tutorIds = settings.tutor.map(t => t.id); // extract ids
+        const tutorIds = settings.tutor.map(t => t.id);
         Array.from(tutorSelect.options).forEach(opt => {
             if (!tutorIds.includes(opt.value)) opt.hidden = true;
         });
-        tutorSelect.value = tutorIds[0]; // set first tutor
+        tutorSelect.value = tutorIds[0];
     }
 
-
-    // ---- OTHER SETTINGS ----
+    // Apply saved defaults to other fields
     if (disciplineSelect && settings.discipline) disciplineSelect.value = settings.discipline;
     if (appointmentTypeSelect && settings.appointmentType) appointmentTypeSelect.value = settings.appointmentType;
     if (sessionTypeSelect && settings.sessionType) sessionTypeSelect.value = settings.sessionType;
@@ -62,7 +61,7 @@ function editForm(formDoc, settings) {
     if (locationSelect && settings.tutoringLocation) locationSelect.value = settings.tutoringLocation;
 }
 
-// ---- FUNCTION: Save all options to Chrome Local Storage ----
+// Save available options into Chrome local storage
 function saveDefaults(formDoc) {
     const selectNames = ['tutor', 'cq7', 'cq3', 'cq1', 'cq4', 'cq5'];
     const defaultsObj = {};
@@ -72,10 +71,9 @@ function saveDefaults(formDoc) {
         if (!selectEl) return;
 
         const options = Array.from(selectEl.options)
-            .filter(opt => opt.value.trim() !== "") // remove "-- please select --"
+            .filter(opt => opt.value.trim() !== "")
             .map(opt => ({ id: opt.value, name: opt.textContent.trim() }));
 
-        // Map to correct defaults key
         switch (name) {
             case 'tutor':
                 defaultsObj.tutors = options.map(o => ({ id: o.id, name: o.name }));
@@ -98,19 +96,17 @@ function saveDefaults(formDoc) {
         }
     });
 
-    chrome.storage.local.set({ defaultOptions: defaultsObj }, () => {
-        //console.log("Defaults updated in Chrome storage");
-    });
+    chrome.storage.local.set({ defaultOptions: defaultsObj });
 }
 
-// ---- FUNCTION: Load saved settings ----
+// Load saved user settings from Chrome storage
 function loadSavedSettings(callback) {
     chrome.storage.local.get(["defaultSettings"], data => {
         callback(data.defaultSettings || {});
     });
 }
 
-// ---- MAIN: Listen for page/form load ----
+// Main: listen for the "Off-Schedule Report" form being opened
 window.addEventListener('load', () => {
     const button = document.querySelector('a[data-bs-resid="CRF_OFFSCH"]');
     if (!button) return;
@@ -126,10 +122,10 @@ window.addEventListener('load', () => {
                 return;
             }
 
-            // Delay slightly to make sure options have rendered
+            // Small delay ensures all options are rendered before applying defaults
             setTimeout(() => {
-                saveDefaults(formDoc); // Save all options
-                loadSavedSettings(settings => editForm(formDoc, settings)); // Apply saved settings dynamically
+                saveDefaults(formDoc);
+                loadSavedSettings(settings => editForm(formDoc, settings));
             }, 400);
         });
     });
