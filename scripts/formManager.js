@@ -63,7 +63,7 @@ function editForm(formDoc, settings) {
   }
 
   // Tutor field: restrict options and select the first saved tutor
-  if (tutorSelect && settings.tutors) {
+  if (tutorSelect && settings.tutors && settings.tutors.length > 0) {
     const tutorIds = settings.tutors.map((t) => t.id);
     Array.from(tutorSelect.options).forEach((opt) => {
       if (!tutorIds.includes(opt.value)) opt.hidden = true;
@@ -132,20 +132,19 @@ window.addEventListener("load", () => {
   button.addEventListener("click", () => {
     const iframe = document.getElementById("dynamicIframe");
     if (!iframe) return;
-    
-    iframe.addEventListener("load", () => {
-        const formDoc = iframe.contentDocument.querySelector("body > form");
-        if (!formDoc) {
-          console.debug("Client report form not found");
-          return;
-        }
 
-        // Small delay ensures all options are rendered before applying defaults
-        setTimeout(() => {
-          saveDefaults(formDoc);
-          loadSavedSettings((settings) => editForm(formDoc, settings));
-        }, 400);
+    iframe.addEventListener("load", () => {
+      const formDoc = iframe.contentDocument.querySelector("body > form");
+      if (!formDoc) {
+        console.debug("Client report form not found");
+        return;
       }
-    );
+
+      // Small delay ensures all options are rendered before applying defaults
+      setTimeout(() => {
+        saveDefaults(formDoc);
+        loadSavedSettings((settings) => editForm(formDoc, settings));
+      }, 400);
+    });
   });
 });
