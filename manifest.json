@@ -2,7 +2,7 @@
   "name": "SNHU MyWCOnline Form Editor",
   "description": "Removes unnecessary options and auto-fills fields in the \"Off-Schedule Report\" form",
   "author": "Justin Perkins",
-  "version": "2.0",
+  "version": "1.0",
 
   "manifest_version": 3,
 
@@ -13,16 +13,7 @@
   },
 
   "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
-  ],
-
-  "web_accessible_resources": [
-    {
-      "resources": ["popup/edit.html"],
-      "matches": ["<all_urls>"]
-    }
+    "storage"
   ],
 
   "action": {
