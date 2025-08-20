@@ -21,7 +21,7 @@
   },
 
   "content_scripts": [{
-    "matches": ["https://snhu.mywconline.com/*"],
+    "matches": ["https://snhu.mywconline.com/schedule/*"],
     "js": ["scripts/formManager.js"]
     }]
 }
